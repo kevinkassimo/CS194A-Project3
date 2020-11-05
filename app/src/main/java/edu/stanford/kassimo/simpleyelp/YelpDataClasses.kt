@@ -1,6 +1,7 @@
 package edu.stanford.kassimo.simpleyelp
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class YelpSearchResult(
     @SerializedName("total") val total: Int,
@@ -15,8 +16,10 @@ data class YelpRestaurant (
     @SerializedName("distance") val distanceInMeters: Double,
     @SerializedName("image_url") val imageUrl: String,
     val categories: List<YelpCategory>,
-    val location: YelpLocation
-) {
+    val location: YelpLocation,
+    // Extension
+    val coordinates: YelpCoordinates
+) : Serializable {
     fun displayDistance(): String {
         val milesPerMeter = 0.000621371
         val distanceInMiles = "%.2f".format(distanceInMeters * milesPerMeter)
@@ -26,8 +29,13 @@ data class YelpRestaurant (
 
 data class YelpCategory(
     val title: String
-)
+) : Serializable
 
 data class YelpLocation(
     @SerializedName("address1") val address: String
-)
+) : Serializable
+
+data class YelpCoordinates(
+    val latitude: Double,
+    val longitude: Double
+) : Serializable
